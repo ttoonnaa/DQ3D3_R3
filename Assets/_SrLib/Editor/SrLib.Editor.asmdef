@@ -1,0 +1,16 @@
+{
+    "name": "SrLib.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:9a89b074d96e0584f9bea9180571d25c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

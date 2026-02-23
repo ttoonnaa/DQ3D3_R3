@@ -9,7 +9,7 @@ namespace SrLib
     /// <summary>
     /// Addressables
     /// </summary>
-    public static class SrCore_Adr
+    public static class SrAdrCore
     {
         private static bool _isInitialized = false;
 

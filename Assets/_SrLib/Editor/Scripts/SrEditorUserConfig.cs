@@ -1,12 +1,12 @@
 #if UNITY_EDITOR
 using UnityEditor;
 
-namespace SrLib
+namespace SrLib.Editor
 {
     /// <summary>
     /// ユーザーごとのエディター設定
     /// </summary>
-    public static class SrCore_EditorUserConfig
+    public static class SrEditorUserConfig
     {
         /// <summary>
         /// string 値を取得
