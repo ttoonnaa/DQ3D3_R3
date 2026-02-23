@@ -5,6 +5,7 @@ using SrLib;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
 namespace _Game
@@ -78,8 +79,8 @@ namespace _Game
 #endif
 
                 // シーンの全てのオブジェクトを削除
-                foreach (var gameObject in SceneManager.GetActiveScene().GetRootGameObjects())
-                    Object.Destroy(gameObject);
+                //foreach (var gameObject in SceneManager.GetActiveScene().GetRootGameObjects())
+                //    Object.Destroy(gameObject);
 
                 // リスナーを作成
                 Listener = new GameListener();
@@ -98,7 +99,7 @@ namespace _Game
                 _test6.Dispose();
                 
                 // アプリケーション終了
-                SrUnityUtility.QuitApplication();
+                //SrUnityUtility.QuitApplication();
             }
             catch (OperationCanceledException)
             {

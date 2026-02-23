@@ -45,7 +45,7 @@ namespace SrLib
         /// <summary>
         /// Addressables アセットを読み込む
         /// </summary>
-        public AsyncOperationHandle<T> LoadAssetAsync<T>(string key) where T : class
+        public AsyncOperationHandle<T> LoadAsset<T>(string key) where T : class
         {
             if (!_addressableKeyList.Contains(key))
             {
@@ -72,8 +72,9 @@ namespace SrLib
     }
     
     /// <summary>
-    /// Addressables リソースは AsyncOperationHandle で管理するので、
-    /// SrResBase を継承せずに SrResBase と似たものを作成します。
+    /// Addressables リソースは AsyncOperationHandle で管理しますが、
+    /// これが struct なので SrResBase が使えません。
+    /// SrResBase を継承せずに作成します。
     /// </summary>
     public class SrAdrRes<T> : SrDisposableBase where T : class
     {
@@ -127,7 +128,7 @@ namespace SrLib
         /// </summary>
         public static async UniTask<SrAdrRes<T>> LoadAssetAsync(SrContext context, CancellationToken cancellationToken, string key)
         {
-            var handle = context.AssetManager.LoadAssetAsync<T>(key);
+            var handle = context.AssetManager.LoadAsset<T>(key);
 
             try
             {
