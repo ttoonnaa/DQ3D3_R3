@@ -16,7 +16,7 @@ MonoBehaviour:
   m_GUID: b690c3fec901e8b49a0294c71cd551e0
   m_SerializeEntries:
   - m_GUID: 4950bb44774f2914d983fe0c89ba567e
-    m_Address: Assets/_Game/Append
+    m_Address: Append
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

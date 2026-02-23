@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -13,6 +14,7 @@ namespace SrLib
         public ISrListener Listener;
         public GameObject MainObject;
         public SrResourceManager ResourceManager;
+        public SrAssetManager AssetManager;
         public SrCameraManager CameraManager;
         public GameObject MessageDialogPrefab;
         public GameObject MessageDialogObject;
@@ -62,10 +64,22 @@ namespace SrLib
             // リソースマネージャーを作成
             ResourceManager = new SrResourceManager(this);
 
-            
+            // そろそろ Addressables 初期化しようかな
+            try
+            {
+                await SrAdrCore.Initialize(cancellationToken);
+            }
+            catch (Exception e)
+            {
+                throw new SrException("SrLib: Addressables の初期化に失敗しました。", e);
+            }
+
             // 最初のローカライズの初期化を待つ
             //await LocalizationSettings.InitializationOperation.ToUniTask(cancellationToken: cancellationToken);
 
+            // アセットマネージャーを作成
+            AssetManager = new SrAssetManager(this);
+            AssetManager.CreateAddressablesKeyList();
         }
 
         /// <summary>
@@ -81,6 +95,9 @@ namespace SrLib
                 Canceler?.Cancel();
                 Canceler?.Dispose();
                 Canceler = null;
+
+                AssetManager?.Dispose();
+                AssetManager = null;
                 
                 ResourceManager?.Dispose();
                 ResourceManager = null;

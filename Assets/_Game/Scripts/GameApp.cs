@@ -48,6 +48,8 @@ namespace _Game
         public static SrRes<GameDisposable> _test2;
         public static SrUnityRes<Texture2D> _test3;
         public static SrUnityRes<Texture2D> _test4;
+        public static SrAdrRes<Sprite> _test5;
+        public static SrAdrRes<Sprite> _test6;
         
         /// <summary>
         /// 最初に実行される
@@ -88,8 +90,12 @@ namespace _Game
 
                 _test1 = new SrRes<GameDisposable>(SrContext, new GameDisposable(), "Test");
                 _test3 = new SrUnityRes<Texture2D>(SrContext, new Texture2D(100, 100, DefaultFormat.DepthStencil, TextureCreationFlags.Crunch), "TestTex");
+                _test5 = await SrAdrRes<Sprite>.LoadAssetAsync(SrContext, CancellationToken, "Append/Images/youkai_kappa.png");
+                _test6 = _test5.AddRef();
                 _test1.Dispose();
                 _test3.Dispose();
+                _test5.Dispose();
+                _test6.Dispose();
                 
                 // アプリケーション終了
                 SrUnityUtility.QuitApplication();

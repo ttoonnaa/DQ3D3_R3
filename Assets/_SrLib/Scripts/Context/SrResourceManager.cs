@@ -18,7 +18,7 @@ namespace SrLib
             public Object Resource;
             public string Name;
             public int RefCount;
-            public Action Disposer;
+            public Action<Object> Disposer;
         }
         
         private SrContext _context;
@@ -73,7 +73,9 @@ namespace SrLib
             }
             else
             {
-                _resourceHash.Add(key, new Value { Resource = resource, Name = name, RefCount = 1 });
+                _resourceHash.Add(key, new Value { Resource = resource, Name = name, RefCount = 1, Disposer = disposer });
+                
+                SrLogCore.Log($"{name} が登録されました。");
             }
         }
         
@@ -88,8 +90,10 @@ namespace SrLib
                 value.RefCount--;
                 if (value.RefCount <= 0)
                 {
-                    value.Disposer?.Invoke();
+                    value.Disposer?.Invoke(value.Resource);
                     _resourceHash.Remove(key);
+                    
+                    SrLogCore.Log($"{value.Name} が解放されました。");
                 }
             }
         }
