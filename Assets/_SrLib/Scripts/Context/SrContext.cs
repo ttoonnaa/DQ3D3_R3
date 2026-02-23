@@ -12,6 +12,7 @@ namespace SrLib
         public CancellationTokenSource Canceler;
         public ISrListener Listener;
         public GameObject MainObject;
+        public SrResourceManager ResourceManager;
         public SrCameraManager CameraManager;
         public GameObject MessageDialogPrefab;
         public GameObject MessageDialogObject;
@@ -58,8 +59,10 @@ namespace SrLib
             // エラーダイアログを読み込み
             MessageDialogPrefab = Resources.Load<GameObject>("SrRes_MessageDialog");
 
-            throw new SrException("えらー");
+            // リソースマネージャーを作成
+            ResourceManager = new SrResourceManager(this);
 
+            
             // 最初のローカライズの初期化を待つ
             //await LocalizationSettings.InitializationOperation.ToUniTask(cancellationToken: cancellationToken);
 
@@ -78,6 +81,9 @@ namespace SrLib
                 Canceler?.Cancel();
                 Canceler?.Dispose();
                 Canceler = null;
+                
+                ResourceManager?.Dispose();
+                ResourceManager = null;
             }
 
             _disposed = true;
