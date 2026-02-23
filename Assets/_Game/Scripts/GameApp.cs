@@ -3,6 +3,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using SrLib;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
@@ -23,6 +24,12 @@ namespace _Game
             GameApp.OnApplicationQuit();
         }
     }
+
+    public class GameDisposable : SrDisposableBase
+    {
+        
+    }
+    
     
     /// <summary>
     /// 唯一のアプリケーション
@@ -36,6 +43,11 @@ namespace _Game
         //public static GameContext Context;
 
         private static bool _applicationQuited;
+        
+        public static SrRes<GameDisposable> _test1;
+        public static SrRes<GameDisposable> _test2;
+        public static SrUnityRes<Texture2D> _test3;
+        public static SrUnityRes<Texture2D> _test4;
         
         /// <summary>
         /// 最初に実行される
@@ -73,6 +85,11 @@ namespace _Game
                 // SrLib を作成
                 SrContext = new SrContext();
                 await SrContext.Create(CancellationToken, Listener);
+
+                _test1 = new SrRes<GameDisposable>(SrContext, new GameDisposable(), "Test");
+                _test3 = new SrUnityRes<Texture2D>(SrContext, new Texture2D(100, 100, DefaultFormat.DepthStencil, TextureCreationFlags.Crunch), "TestTex");
+                _test1.Dispose();
+                _test3.Dispose();
                 
                 // アプリケーション終了
                 SrUnityUtility.QuitApplication();
