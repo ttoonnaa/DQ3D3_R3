@@ -23,7 +23,7 @@ namespace _Game
             GameApp.OnApplicationQuit();
         }
     }
-
+    
     /// <summary>
     /// 唯一のアプリケーション
     /// </summary>
@@ -73,7 +73,7 @@ namespace _Game
                 // SrLib を作成
                 SrContext = new SrContext();
                 await SrContext.Create(CancellationToken, Listener);
-
+                
                 // アプリケーション終了
                 SrUnityUtility.QuitApplication();
             }

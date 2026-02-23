@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SrLib
 {
@@ -13,9 +14,10 @@ namespace SrLib
     {
         private class Value
         {
-            public SrDisposableBase Resource;
+            public Object Resource;
             public string Name;
             public int RefCount;
+            public Action Disposer;
         }
         
         private SrContext _context;
@@ -62,7 +64,7 @@ namespace SrLib
         /// <summary>
         /// リソースを登録する
         /// </summary>
-        public void Register(string key, SrDisposableBase resource, string name)
+        public void Register(string key, SrDisposableBase resource, string name, Action<Object> disposer)
         {
             if (_resourceHash.TryGetValue(key, out var value))
             {
@@ -85,7 +87,7 @@ namespace SrLib
                 value.RefCount--;
                 if (value.RefCount <= 0)
                 {
-                    value.Resource.Dispose();
+                    value.Disposer?.Invoke();
                     _resourceHash.Remove(key);
                 }
             }
@@ -97,7 +99,7 @@ namespace SrLib
     /// このリソースはコンストラクターでマネージャーに登録され、Dispose でマネージャーから解放されます。
     /// マネージャーはデフォルトでは SrContext.ResourceManager が使われますが、指定することもできます。
     /// </summary>
-    public class SrSharedRes<T> : SrDisposableBase where T : SrDisposableBase
+    public class SrRes<T> : SrDisposableBase where T : SrDisposableBase
     {
         private readonly SrContext _context;
         private readonly SrResourceManager _manager;
@@ -109,7 +111,7 @@ namespace SrLib
         /// <summary>
         /// コンストラクター
         /// </summary>
-        public SrSharedRes(SrContext context, T resource, string name)
+        public SrRes(SrContext context, T resource, string name)
         {
             _context = context;
             _manager = context.ResourceManager;
@@ -118,7 +120,7 @@ namespace SrLib
             _name = name;
 
             // マネージャーに登録
-            _manager.Register(_key, _resource, _name);
+            _manager.Register(_key, _resource, _name, target => ((T)target).Dispose());
         }
         
         /// <summary>
@@ -155,9 +157,9 @@ namespace SrLib
         /// <summary>
         /// 参照カウントを増やす
         /// </summary>
-        public SrSharedRes<T> AddRef()
+        public SrRes<T> AddRef()
         {
-            return new SrSharedRes<T>(_context, _resource, _name);
+            return new SrRes<T>(_context, _resource, _name);
         }
     }
 }
