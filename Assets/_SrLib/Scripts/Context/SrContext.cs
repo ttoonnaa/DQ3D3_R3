@@ -58,6 +58,8 @@ namespace SrLib
             // エラーダイアログを読み込み
             MessageDialogPrefab = Resources.Load<GameObject>("SrRes_MessageDialog");
 
+            throw new SrException("えらー");
+
             // 最初のローカライズの初期化を待つ
             //await LocalizationSettings.InitializationOperation.ToUniTask(cancellationToken: cancellationToken);
 

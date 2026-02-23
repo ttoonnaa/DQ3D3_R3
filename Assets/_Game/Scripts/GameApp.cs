@@ -148,7 +148,7 @@ namespace _Game
             //}
             if (SrContext != null)
             {
-                //await SrLogFlow.ShowError(SrContext, CancellationToken, e);
+                await SrLogFlow.ShowError(SrContext, CancellationToken, e);
             }
             else
             {
