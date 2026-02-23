@@ -1,10 +1,10 @@
-﻿using UnityEngine;
+﻿using _SrLib;
+using UnityEngine;
 
 namespace SrLib
 {
     public static class SrContextUtility
     {
-        /*
         /// <summary>
         /// プレハブからインスタンスを生成する
         /// </summary>
@@ -34,6 +34,5 @@ namespace SrLib
                 component.Setup(context);
             }
         }
-        */
     }
 }
